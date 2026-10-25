@@ -7,7 +7,7 @@ they want to know about.
 
 All information comes from NASA unless stated otherwise.
 
-Last Updated: 9/27/2026"""
+Last Updated: 10/25/2026"""
 
 from planet import Planet
 
@@ -38,8 +38,8 @@ while True:
     if user_input == "q":
         quit()
 
-    print(available_planets[user_input].name)
-    print(available_planets[user_input].distance_from_sun)
-    print(available_planets[user_input].atmosphere)
+    print(f'{available_planets[user_input].name}:')
+    print(f'{available_planets[user_input].distance_from_sun} astronomical units from our sun.')
+    print(f'The atmosphere of {available_planets[user_input].name} is made mostly of {available_planets[user_input].atmosphere}')
     
     line_break()
