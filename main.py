@@ -15,6 +15,11 @@ def line_break():
     """Used to seperate different messages and user input in the console."""
     print("--------------------")
 
+def check_for_quitting():
+    """Checks if the user has decided to quit the program."""
+    if user_input == "q":
+            quit()
+
 available_planets = {"mercury": Planet("Mercury", 0.4, "sodium"),
                      "venus": Planet("Venus", 0.72, "carbon dioxide"),
                      "earth": Planet("Earth", 1, "oxygen"),
@@ -28,6 +33,7 @@ print("All information is retrieved from NASA unless stated otherwise.")
 while True:
     print("Enter the name of the planet you want to learn about, or press q to quit.")
     print("Available Planets:")
+    
     for planet in available_planets:
         print(planet)
     line_break()
@@ -35,11 +41,16 @@ while True:
     user_input = input().lower()
     line_break()
 
-    if user_input == "q":
-        quit()
+    check_for_quitting()
 
     print(f'{available_planets[user_input].name}:')
     print(f'{available_planets[user_input].distance_from_sun} astronomical units from our sun.')
     print(f'The atmosphere of {available_planets[user_input].name} is made mostly of {available_planets[user_input].atmosphere}')
+
+    line_break()
+
+    user_input = input('Press enter to continue, or enter q to quit.').lower()
+
+    check_for_quitting()
     
     line_break()
