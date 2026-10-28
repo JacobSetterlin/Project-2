@@ -16,7 +16,7 @@ class CustomPlanet:
         """
         name: the users name for the planet.
         
-        description_path: The user's descirption of the planet
+        description: The user's descirption of the planet
         """
         self.name = name
         self.description = description

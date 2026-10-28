@@ -7,69 +7,90 @@ they want to know about.
 
 All information comes from NASA unless stated otherwise.
 
-Last Updated: 10/25/2026"""
+Last Updated: 10/28/2026"""
 
 from planet import Planet
 from pathlib import Path
 from planetcreator import PlanetCreator
 from custom_planets import CustomPlanet
 
-def line_break():
-    """Used to seperate different messages and user input in the console."""
-    print("--------------------")
+class Main():
+    """Used to hold the main logic of the program."""
 
-def check_for_quitting():
-    """Checks if the user has decided to quit the program."""
-    if user_input == "q":
-            quit()
-
-native_folder = 'nativeplanetsdescriptions'
-
-native_planet = {"mercury": Planet("Mercury", 0.4, "sodium", Path.cwd() / native_folder / 'mercury.txt'),
-                "venus": Planet("Venus", 0.72, "carbon dioxide", Path.cwd() / native_folder / 'venus.txt'),
-                "earth": Planet("Earth", 1, "oxygen", Path.cwd() / native_folder / 'earth.txt'),
-                "mars": Planet("Mars", 1.5, "carbon dioxide", Path.cwd() / native_folder / 'mars.txt'),
-                "jupiter": Planet("Jupiter", 5.2, "ammonia ice", Path.cwd() / native_folder / 'jupiter.txt'),
-                "saturn": Planet("Saturn", 9.5, "hydrogen", Path.cwd() / native_folder / 'saturn.txt'),
-                "uranus": Planet("Uranus", 19, "hydrogen", Path.cwd() / native_folder / 'uranus.txt'),
-                "neptune": Planet("Neptune", 30, "hydrogen", Path.cwd() / native_folder / 'neptune.txt')}
-
-print("All information is retrieved from NASA unless stated otherwise.")
-while True:
-    print("Enter the name of the planet you want to learn about, or press q to quit.")
-    print("Available Planets:")
+    native_folder = 'nativeplanetsdescriptions'
     
-    for planet in native_planet:
-        print(planet)
-    for planet in CustomPlanet.created_planets:
-        print(planet)
-    line_break()
+    native_planet = {"mercury": Planet("Mercury", 0.4, "sodium", Path.cwd() / native_folder / 'mercury.txt'),
+                    "venus": Planet("Venus", 0.72, "carbon dioxide", Path.cwd() / native_folder / 'venus.txt'),
+                    "earth": Planet("Earth", 1, "oxygen", Path.cwd() / native_folder / 'earth.txt'),
+                    "mars": Planet("Mars", 1.5, "carbon dioxide", Path.cwd() / native_folder / 'mars.txt'),
+                    "jupiter": Planet("Jupiter", 5.2, "ammonia ice", Path.cwd() / native_folder / 'jupiter.txt'),
+                    "saturn": Planet("Saturn", 9.5, "hydrogen", Path.cwd() / native_folder / 'saturn.txt'),
+                    "uranus": Planet("Uranus", 19, "hydrogen", Path.cwd() / native_folder / 'uranus.txt'),                        "neptune": Planet("Neptune", 30, "hydrogen", Path.cwd() / native_folder / 'neptune.txt')}
 
-    user_input = input().lower()
-    line_break()
+    def main(self):
+            """Used to hold the main logic the program."""
+            print("All information is retrieved from NASA unless stated otherwise.")
+            while True:
+                print("Enter the name of the planet you want to learn about, enter c to create a planet, or enter q to quit.")
+                print("Available Planets:")
+                
+                self._display_planets()
+                self._line_break()
+    
+                user_input = input().lower()
+                self._line_break()
+    
+                self._handle_input(user_input)
+            
+                self._line_break()
+    
+                user_input = input('Press enter to continue, or enter q to quit.').lower()
+                self._handle_input(user_input)
+                
+                self._line_break()
 
-    if user_input == 'c':
-        PlanetCreator.create_planet()
-        continue
+    def _line_break(self):
+        """Used to seperate different messages and user input in the console."""
+        print("--------------------")
 
-    check_for_quitting()
+    def _display_planets(self):
+        """Used to display the planets the user can view information on."""
+        for planet in self.native_planet:
+            print(planet)
+        for planet in CustomPlanet.created_planets:
+            print(planet)
 
-    if user_input in native_planet:
-        print(f'{native_planet[user_input].name}:')
-        print(f'{native_planet[user_input].distance_from_sun} astronomical units from our sun.')
-        print(f'The atmosphere of {native_planet[user_input].name} is made mostly of {native_planet[user_input].atmosphere}')
+    def _display_native_planet_info(self, user_input):
+        """Used to display information about built in planets."""
+        print(f'{self.native_planet[user_input].name}:')
+        print(f'{self.native_planet[user_input].distance_from_sun} astronomical units from our sun.')
+        print(f'The atmosphere of {self.native_planet[user_input].name} is made mostly of {self.native_planet[user_input].atmosphere}')
 
-        with open(native_planet[user_input].desc_path, 'r') as file:
+        with open(self.native_planet[user_input].desc_path, 'r') as file:
             print(file.read())
 
-    else:
+    def _display_custom_planet(self, user_input):
+        """Used to display information about user made planets"""
         print(CustomPlanet.created_planets[user_input].name)
         print(CustomPlanet.created_planets[user_input].description)
-  
-    line_break()
 
-    user_input = input('Press enter to continue, or enter q to quit.').lower()
+    def _handle_input(self, user_input):
+        """Handles logic based on the users choice of input."""
+        if user_input in self.native_planet:
+            self._display_native_planet_info(user_input)
 
-    check_for_quitting()
-    
-    line_break()
+        elif user_input in CustomPlanet.created_planets:
+            self._display_custom_planet(user_input)
+
+        elif user_input == 'c':
+            PlanetCreator.create_planet()
+
+        elif user_input == 'q':
+            quit()
+
+        else:
+            print('Command not recognized.')
+
+if __name__ == '__main__':
+    main_program = Main()
+    main_program.main()
