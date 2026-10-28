@@ -11,6 +11,8 @@ Last Updated: 10/25/2026"""
 
 from planet import Planet
 from pathlib import Path
+from planetcreator import PlanetCreator
+from custom_planets import CustomPlanet
 
 def line_break():
     """Used to seperate different messages and user input in the console."""
@@ -39,19 +41,30 @@ while True:
     
     for planet in native_planet:
         print(planet)
+    for planet in CustomPlanet.created_planets:
+        print(planet)
     line_break()
 
     user_input = input().lower()
     line_break()
 
+    if user_input == 'c':
+        PlanetCreator.create_planet()
+        continue
+
     check_for_quitting()
 
-    print(f'{native_planet[user_input].name}:')
-    print(f'{native_planet[user_input].distance_from_sun} astronomical units from our sun.')
-    print(f'The atmosphere of {native_planet[user_input].name} is made mostly of {native_planet[user_input].atmosphere}')
+    if user_input in native_planet:
+        print(f'{native_planet[user_input].name}:')
+        print(f'{native_planet[user_input].distance_from_sun} astronomical units from our sun.')
+        print(f'The atmosphere of {native_planet[user_input].name} is made mostly of {native_planet[user_input].atmosphere}')
 
-    with open(native_planet[user_input].desc_path, 'r') as file:
-        print(file.read())
+        with open(native_planet[user_input].desc_path, 'r') as file:
+            print(file.read())
+
+    else:
+        print(CustomPlanet.created_planets[user_input].name)
+        print(CustomPlanet.created_planets[user_input].description)
   
     line_break()
 
