@@ -12,11 +12,10 @@ Last Updated: 10/28/2026"""
 from planet import Planet
 from pathlib import Path
 from planetcreator import PlanetCreator
-from custom_planets import CustomPlanet
 
 class Main():
     """Used to hold the main logic of the program."""
-
+    
     native_folder = 'nativeplanetsdescriptions'
     
     native_planet = {"mercury": Planet("Mercury", 0.4, "sodium", Path.cwd() / native_folder / 'mercury.txt'),
@@ -25,7 +24,10 @@ class Main():
                     "mars": Planet("Mars", 1.5, "carbon dioxide", Path.cwd() / native_folder / 'mars.txt'),
                     "jupiter": Planet("Jupiter", 5.2, "ammonia ice", Path.cwd() / native_folder / 'jupiter.txt'),
                     "saturn": Planet("Saturn", 9.5, "hydrogen", Path.cwd() / native_folder / 'saturn.txt'),
-                    "uranus": Planet("Uranus", 19, "hydrogen", Path.cwd() / native_folder / 'uranus.txt'),                        "neptune": Planet("Neptune", 30, "hydrogen", Path.cwd() / native_folder / 'neptune.txt')}
+                    "uranus": Planet("Uranus", 19, "hydrogen", Path.cwd() / native_folder / 'uranus.txt'),
+                    "neptune": Planet("Neptune", 30, "hydrogen", Path.cwd() / native_folder / 'neptune.txt')}
+
+    planet_creator = PlanetCreator()
 
     def main(self):
             """Used to hold the main logic the program."""
@@ -57,7 +59,7 @@ class Main():
         """Used to display the planets the user can view information on."""
         for planet in self.native_planet:
             print(planet)
-        for planet in CustomPlanet.created_planets:
+        for planet in self.planet_creator.created_planets:
             print(planet)
 
     def _display_native_planet_info(self, user_input):
@@ -72,18 +74,18 @@ class Main():
     def _display_custom_planet(self, user_input):
         """Used to display information about user made planets"""
         print(f'{user_input}: ')
-        print(CustomPlanet.created_planets[user_input])
+        print(self.planet_creator.created_planets[user_input])
 
     def _handle_input(self, user_input):
         """Handles logic based on the users choice of input."""
         if user_input in self.native_planet:
             self._display_native_planet_info(user_input)
 
-        elif user_input in CustomPlanet.created_planets:
+        elif user_input in self.planet_creator.created_planets:
             self._display_custom_planet(user_input)
 
         elif user_input == 'c':
-            PlanetCreator.create_planet()
+            self.planet_creator.create_planet()
 
         elif user_input == 'q':
             quit()

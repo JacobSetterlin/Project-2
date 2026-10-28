@@ -5,12 +5,12 @@ Jacob Setterlin
 This file is used to store the PlanetCreator class.
 """
 
-from custom_planets import CustomPlanet
-
 class PlanetCreator():
     """Used to create custom planets for the user."""
 
-    def create_planet():
+    created_planets = {}
+
+    def create_planet(self):
         """Used to create planets for the user."""
         name = input('Enter the name of your planet. ')
         description = input('Type out everything you want to remember about the planet. ')
@@ -18,7 +18,7 @@ class PlanetCreator():
         user_input = input(f'Are you sure to want to create the planet called {name}? y/n: ')
 
         if user_input == 'y':
-            CustomPlanet.created_planets[name] = description
+            self.created_planets[name] = description
             print("Your planet has been created.")
 
         else:
