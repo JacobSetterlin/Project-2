@@ -71,8 +71,8 @@ class Main():
 
     def _display_custom_planet(self, user_input):
         """Used to display information about user made planets"""
-        print(CustomPlanet.created_planets[user_input].name)
-        print(CustomPlanet.created_planets[user_input].description)
+        print(f'{user_input}: ')
+        print(CustomPlanet.created_planets[user_input])
 
     def _handle_input(self, user_input):
         """Handles logic based on the users choice of input."""
