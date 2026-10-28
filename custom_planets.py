@@ -9,12 +9,14 @@ from pathlib import Path
 
 class CustomPlanet:
     """Used to create custom planets for the user."""
-    def __init__(self, name, description_path: Path):
+
+    created_planets = {}
+    
+    def __init__(self, name: str, description: str):
         """
         name: the users name for the planet.
         
-        description_path: the file path to the description of the planet,
-        which should always be found in the planet_descriptions folder.
+        description_path: The user's descirption of the planet
         """
         self.name = name
-        self.description_path = description_path
+        self.description = description
