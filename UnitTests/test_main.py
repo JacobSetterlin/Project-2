@@ -64,3 +64,10 @@ def test__handle_unrecognized_input(capsys):
     main._handle_input(planet)
 
     assert capsys.readouterr().out == 'Command not recognized.\n'
+
+def test__line_break(capsys):
+    main = Main()
+
+    main._line_break()
+
+    assert capsys.readouterr().out == "--------------------\n"
