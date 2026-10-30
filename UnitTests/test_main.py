@@ -71,3 +71,12 @@ def test__line_break(capsys):
     main._line_break()
 
     assert capsys.readouterr().out == "--------------------\n"
+
+def test__display_custom_planet(capsys):
+    main = Main()
+    user_input = 'input'
+    main.created_planets = {user_input: 'planet_desc'}
+
+    main._display_custom_planet(user_input)
+
+    assert capsys.readouterr().out == f'{user_input}: \n{main.created_planets[user_input]}\n'
