@@ -58,8 +58,11 @@ class Main():
                 self._line_break()
 
     def _gather_save_data(self):
-            with open(Path.cwd() / 'savestates' / 'userplanets.json', 'r') as file:
-                return json.load(file)
+        """
+        Used to retrieve planets the user has created from savestates/userplanets.json
+        """
+        with open(Path.cwd() / 'savestates' / 'userplanets.json', 'r') as file:
+            return json.load(file)
 
     def _line_break(self):
         """Used to seperate different messages and user input in the console."""
