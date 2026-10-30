@@ -80,3 +80,12 @@ def test__display_custom_planet(capsys):
     main._display_custom_planet(user_input)
 
     assert capsys.readouterr().out == f'{user_input}: \n{main.created_planets[user_input]}\n'
+
+def test__display_planets(capsys):
+    main = Main()
+    main.native_planet = {'planet_name': 'planet_object'}
+    main.created_planets = {'planet_name': 'planet_desc'}
+
+    main._display_planets()
+
+    assert capsys.readouterr().out == 'planet_name\nplanet_name\n'
