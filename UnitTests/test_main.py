@@ -96,3 +96,17 @@ def test__gather_save_data():
     #The below with statement was Created by Claude Sonnet 5.5
     with mock.patch("builtins.open", mock.mock_open(read_data='{"created_planet_name": "desc"}')):
         assert main._gather_save_data() == {'created_planet_name': 'desc'}
+
+def test__display_native_planet_info(capsys):
+    main = Main()
+    planet = main.native_planet['mercury']
+
+    with mock.patch('builtins.open', mock.mock_open(read_data='some description')):
+        main._display_native_planet_info('mercury')
+
+    
+    output = capsys.readouterr().out
+    assert f'{planet.name}:' in output
+    assert f'{planet.distance_from_sun} astronomical units' in output
+    assert planet.atmosphere in output
+    assert 'some description' in output
