@@ -89,3 +89,10 @@ def test__display_planets(capsys):
     main._display_planets()
 
     assert capsys.readouterr().out == 'planet_name\nplanet_name\n'
+
+def test__gather_save_data():
+    main = Main()
+
+    #The below with statement was Created by Claude Sonnet 5.5
+    with mock.patch("builtins.open", mock.mock_open(read_data='{"created_planet_name": "desc"}')):
+        assert main._gather_save_data() == {'created_planet_name': 'desc'}
