@@ -61,8 +61,14 @@ class Main():
         """
         Used to retrieve planets the user has created from savestates/userplanets.json
         """
-        with open(Path.cwd() / 'savestates' / 'userplanets.json', 'r') as file:
-            return json.load(file)
+        try:
+            with open(Path.cwd() / 'savestates' / 'userplanets.json', 'r') as file:
+                return json.load(file)
+        
+        except json.JSONDecodeError:
+            print("The file containing the planets you added has been corrupted; you will have to add them all again.")
+            return {}
+
 
     def _line_break(self):
         """Used to seperate different messages and user input in the console."""
