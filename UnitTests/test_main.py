@@ -16,18 +16,18 @@ def test_handle_created_input():
     main = Main()
     main.created_planets = [planet]
 
-    with mock.patch.object(main, "_display_custom_planet") as mock_display:
+    with mock.patch.object(main, "_display_created_planet_info") as mock_display:
         main._handle_input(planet)
 
     mock_display.assert_called_once_with(planet)
 
-def test__handle_native_input():
+def test__handle_default_input():
     main = Main()
     planet = 'earth'
     
-    assert planet in main.native_planet
+    assert planet in main.default_planets
 
-    with mock.patch.object(main, "_display_native_planet_info") as mock_display:
+    with mock.patch.object(main, "_display_default_planet_info") as mock_display:
         main._handle_input(planet)
 
     mock_display.assert_called_once_with(planet)
@@ -72,18 +72,18 @@ def test__line_break(capsys):
 
     assert capsys.readouterr().out == "--------------------\n"
 
-def test__display_custom_planet(capsys):
+def test__display_created_planet_info(capsys):
     main = Main()
     user_input = 'input'
     main.created_planets = {user_input: 'planet_desc'}
 
-    main._display_custom_planet(user_input)
+    main._display_created_planet_info(user_input)
 
     assert capsys.readouterr().out == f'{user_input}: \n{main.created_planets[user_input]}\n'
 
 def test__display_planets(capsys):
     main = Main()
-    main.native_planet = {'planet_name': 'planet_object'}
+    main.default_planets = {'planet_name': 'planet_object'}
     main.created_planets = {'planet_name': 'planet_desc'}
 
     main._display_planets()
@@ -97,12 +97,12 @@ def test__gather_save_data():
     with mock.patch("builtins.open", mock.mock_open(read_data='{"created_planet_name": "desc"}')):
         assert main._gather_save_data() == {'created_planet_name': 'desc'}
 
-def test__display_native_planet_info(capsys):
+def test__display_default_planet_info(capsys):
     main = Main()
-    planet = main.native_planet['mercury']
+    planet = main.default_planets['mercury']
 
     with mock.patch('builtins.open', mock.mock_open(read_data='some description')):
-        main._display_native_planet_info('mercury')
+        main._display_default_planet_info('mercury')
 
     
     output = capsys.readouterr().out
