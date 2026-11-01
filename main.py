@@ -7,7 +7,7 @@ they want to know about.
 
 All information comes from NASA unless stated otherwise.
 
-Last Updated: 10/29/2026"""
+Last Updated: 10/30/2026"""
 
 from planet import Planet
 from pathlib import Path
@@ -17,18 +17,20 @@ import json
 class Main():
     """Used to hold the main logic of the program."""
     
-    native_folder = 'nativeplanetsdescriptions'
+    description_folder = 'nativeplanetsdescriptions'
     
-    native_planet = {"mercury": Planet("Mercury", 0.4, "sodium", Path.cwd() / native_folder / 'mercury.txt'),
-                    "venus": Planet("Venus", 0.72, "carbon dioxide", Path.cwd() / native_folder / 'venus.txt'),
-                    "earth": Planet("Earth", 1, "oxygen", Path.cwd() / native_folder / 'earth.txt'),
-                    "mars": Planet("Mars", 1.5, "carbon dioxide", Path.cwd() / native_folder / 'mars.txt'),
-                    "jupiter": Planet("Jupiter", 5.2, "ammonia ice", Path.cwd() / native_folder / 'jupiter.txt'),
-                    "saturn": Planet("Saturn", 9.5, "hydrogen", Path.cwd() / native_folder / 'saturn.txt'),
-                    "uranus": Planet("Uranus", 19, "hydrogen", Path.cwd() / native_folder / 'uranus.txt'),
-                    "neptune": Planet("Neptune", 30, "hydrogen", Path.cwd() / native_folder / 'neptune.txt')}
+    default_planets = {"mercury": Planet("Mercury", 0.4, "sodium", Path.cwd() / description_folder / 'mercury.txt'),
+                    "venus": Planet("Venus", 0.72, "carbon dioxide", Path.cwd() / description_folder / 'venus.txt'),
+                    "earth": Planet("Earth", 1, "oxygen", Path.cwd() / description_folder / 'earth.txt'),
+                    "mars": Planet("Mars", 1.5, "carbon dioxide", Path.cwd() / description_folder / 'mars.txt'),
+                    "jupiter": Planet("Jupiter", 5.2, "ammonia ice", Path.cwd() / description_folder / 'jupiter.txt'),
+                    "saturn": Planet("Saturn", 9.5, "hydrogen", Path.cwd() / description_folder / 'saturn.txt'),
+                    "uranus": Planet("Uranus", 19, "hydrogen", Path.cwd() / description_folder / 'uranus.txt'),
+                    "neptune": Planet("Neptune", 30, "hydrogen", Path.cwd() / description_folder / 'neptune.txt')}
 
     planet_creator = PlanetCreator()
+
+    created_planets = {}
 
     def main(self):
             """Used to hold the main logic the program."""
@@ -56,8 +58,17 @@ class Main():
                 self._line_break()
 
     def _gather_save_data(self):
+        """
+        Used to retrieve planets the user has created from savestates/userplanets.json
+        """
+        try:
             with open(Path.cwd() / 'savestates' / 'userplanets.json', 'r') as file:
                 return json.load(file)
+        
+        except json.JSONDecodeError:
+            print("The file containing the planets you added has been corrupted; you will have to add them all again.")
+            return {}
+
 
     def _line_break(self):
         """Used to seperate different messages and user input in the console."""
@@ -65,32 +76,32 @@ class Main():
 
     def _display_planets(self):
         """Used to display the planets the user can view information on."""
-        for planet in self.native_planet:
+        for planet in self.default_planets:
             print(planet)
         for planet in self.created_planets:
             print(planet)
 
-    def _display_native_planet_info(self, user_input):
+    def _display_default_planet_info(self, user_input):
         """Used to display information about built in planets."""
-        print(f'{self.native_planet[user_input].name}:')
-        print(f'{self.native_planet[user_input].distance_from_sun} astronomical units from our sun.')
-        print(f'The atmosphere of {self.native_planet[user_input].name} is made mostly of {self.native_planet[user_input].atmosphere}')
+        print(f'{self.default_planets[user_input].name}:')
+        print(f'{self.default_planets[user_input].distance_from_sun} astronomical units from our sun.')
+        print(f'The atmosphere of {self.default_planets[user_input].name} is made mostly of {self.default_planets[user_input].atmosphere}')
 
-        with open(self.native_planet[user_input].desc_path, 'r') as file:
+        with open(self.default_planets[user_input].desc_path, 'r') as file:
             print(file.read())
 
-    def _display_custom_planet(self, user_input):
+    def _display_created_planet_info(self, user_input):
         """Used to display information about user made planets"""
         print(f'{user_input}: ')
         print(self.created_planets[user_input])
 
     def _handle_input(self, user_input):
         """Handles logic based on the users choice of input."""
-        if user_input in self.native_planet:
-            self._display_native_planet_info(user_input)
+        if user_input in self.default_planets:
+            self._display_default_planet_info(user_input)
 
         elif user_input in self.created_planets:
-            self._display_custom_planet(user_input)
+            self._display_created_planet_info(user_input)
 
         elif user_input == 'c':
             self.planet_creator.create_planet()
